@@ -65,10 +65,24 @@
             </ol>
 
             <div class="gallery">
-                <img src="images/swedish-pancakes-platted.jpeg" 
+                <img src="images/swedish-pancakes-platted.jpeg"
                     alt="Three Swedish pancakes folded with a dusting of powdered sugar and berries on a plate.">
-                <img src="https://true-north-kitchen.com/wp-content/uploads/2023/08/traditional-swedish-pancakes-pannkakor-1.jpg" 
+                <img src="https://true-north-kitchen.com/wp-content/uploads/2023/08/traditional-swedish-pancakes-pannkakor-1.jpg"
                     alt="A thin layer of pancake batter cooking in a stainless steel pan." title="Name of Recipe">
+            </div>
+
+            <div class="review-section">
+                <h3>Reviews</h3>
+                <div class="review-container">
+                    <!-- Reviews will be added here dynamically -->
+                </div>
+                <form class="review-form">
+                    <label for="review-name">Name:</label>
+                    <input type="text" id="review-name" name="review-name" required>
+                    <label for="review-text">Review:</label>
+                    <textarea id="review-text" name="review-text" required></textarea>
+                    <button type="submit">Submit Review</button>
+                </form>
             </div>
 
         </article>
@@ -100,9 +114,9 @@
                 <li>Once the noodles are cooked, plate in a bowl and grate cheese on top</li>
             </ol>
             <div class="gallery">
-                <img src="images/spaghetti_sauce.jpg"  alt="Pasta sauce in a pan">
-                <img src="images/spaghetti_noodles.jpg"  alt="A pile of spaghetti noodles">
-                <img src="images/spaghetti_pan.jpg"  alt="Cooked spaghetti with sauce in a pan">
+                <img src="images/spaghetti_sauce.jpg" alt="Pasta sauce in a pan">
+                <img src="images/spaghetti_noodles.jpg" alt="A pile of spaghetti noodles">
+                <img src="images/spaghetti_pan.jpg" alt="Cooked spaghetti with sauce in a pan">
             </div>
 
         </article>
@@ -139,14 +153,46 @@
             </ol>
 
             <div class="gallery">
-                <img src="images/jiaozi2.jpeg"  alt="Three dishes of Jiaozi.">
-                <img src="images/jiaozi3.jpeg"  alt="Steamed jiaozi">
-                <img src="images/jiaozi4.jpeg"  alt="Making jiaozi">
+                <img src="images/jiaozi2.jpeg" alt="Three dishes of Jiaozi.">
+                <img src="images/jiaozi3.jpeg" alt="Steamed jiaozi">
+                <img src="images/jiaozi4.jpeg" alt="Making jiaozi">
             </div>
 
         </article>
 
     </main>
+
+    <script>
+        const reviewContainer = document.querySelector('.review-container');
+        const reviewForm = document.querySelector('.review-form');
+
+        // Load reviews from local storage (if any)
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        reviews.forEach(addReviewToPage);
+
+        // Add event listener to the review form
+        reviewForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('review-name').value;
+            const text = document.getElementById('review-text').value;
+            const newReview = { name, text };
+            reviews.push(newReview);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            addReviewToPage(newReview);
+            reviewForm.reset();
+        });
+
+        // Function to add a review to the page
+        function addReviewToPage(review) {
+            const reviewElement = document.createElement('div');
+            reviewElement.classList.add('review');
+            reviewElement.innerHTML = `
+                <h4>${review.name}</h4>
+                <p>${review.text}</p>
+            `;
+            reviewContainer.appendChild(reviewElement);
+        }
+    </script>
 
 </body>
 
